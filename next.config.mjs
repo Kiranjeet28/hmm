@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  distDir: '.next',
   reactStrictMode: true,
   images: {
     domains: ["lh3.googleusercontent.com"],

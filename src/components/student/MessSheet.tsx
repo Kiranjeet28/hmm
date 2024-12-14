@@ -12,7 +12,8 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { FaCheck, FaTimes } from 'react-icons/fa';
-import { Messperstd } from '@prisma/client';
+import { Messperstd } from '@/resources/type/d.index';
+
 
 
 
