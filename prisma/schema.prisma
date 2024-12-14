@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model MessBill {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  Payment Int
+}
+model Review {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  Email        String  @unique
+  Name         String
+  Profession   String
+  Rating       Int
+  Review       String
+  Picture      String?
+  Order        Int?
+  createdAt    DateTime @default(now())
+}
+
+model Messperstd {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  Year         Int
+  april        Boolean
+  august       Boolean
+  december     Boolean
+  february     Boolean
+  january      Boolean
+  july         Boolean
+  june         Boolean
+  march        Boolean
+  may          Boolean
+  november     Boolean
+  october      Boolean
+  september    Boolean
+  Student      Student @relation(fields: [studentEmail], references: [Email])
+  studentEmail String 
+
+  
+}
+
+model Student {
+  id               String  @id @default(auto()) @map("_id") @db.ObjectId
+  Address          String?
+  Branch           String?
+  City             String?
+  Email            String  @unique
+  EmergencyContact String?
+  Father           String?
+  Image            String?
+  LocalContact     Int?
+  LocalName        String?
+  Mother           String?
+  Name             String
+  ParentsContact   Int?
+  RollNumber       Int?  @unique
+  WAContact        String?
+  Year             Int?
+  role    Role     @default(USER)
+  Messperstd       Messperstd[]
+}
+enum Role {
+  USER
+  ADMIN
+}
