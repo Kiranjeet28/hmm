@@ -1,43 +1,44 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const allowedOrigins = ['https://hostel-mess-management.vercel.app','http://localhost:3000', 'https://hostalmessmange.netlify.app']
+const allowedOrigins = [
+    'https://hostel-mess-management.vercel.app',
+    'http://localhost:3000',
+    'https://hostalmessmange.netlify.app',
+];
 
 const corsOptions = {
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-}
+};
 
 export function middleware(request: NextRequest) {
-    // Check the origin from the request
-    const origin = request.headers.get('origin') ?? ''
-    const isAllowedOrigin = allowedOrigins.includes(origin)
-
-    // Handle preflighted requests
-    const isPreflight = request.method === 'OPTIONS'
+    const origin = request.headers.get('origin') ?? '';
+    const isAllowedOrigin = allowedOrigins.includes(origin);
+    const isPreflight = request.method === 'OPTIONS';
 
     if (isPreflight) {
-        const preflightHeaders = {
+        // Handle preflight request
+        const headers = {
             ...(isAllowedOrigin && { 'Access-Control-Allow-Origin': origin }),
             ...corsOptions,
-        }
-        return NextResponse.json({}, { headers: preflightHeaders })
+        };
+        return new NextResponse(null, { headers });
     }
 
-    // Handle simple requests
-    const response = NextResponse.next()
+    // For other requests
+    const response = NextResponse.next();
 
     if (isAllowedOrigin) {
-        response.headers.set('Access-Control-Allow-Origin', origin)
+        response.headers.set('Access-Control-Allow-Origin', origin);
     }
 
     Object.entries(corsOptions).forEach(([key, value]) => {
-        response.headers.set(key, value)
-    })
+        response.headers.set(key, value);
+    });
 
-    return response
+    return response;
 }
 
 export const config = {
-    // Matches the incoming request path against the pattern '/api/:path*'. This middleware is used to handle requests to the API endpoints of the application.
     matcher: '/api/:path*',
-}
+};
