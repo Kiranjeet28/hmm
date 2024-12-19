@@ -77,7 +77,7 @@ const authOptions: NextAuthOptions = {
         strategy: "jwt",
         maxAge: 60 * 60 * 24 * 7,
     },
-    secret: process.env.NEXT_PUBLIC_SECRET as string,
+    secret: process.env.SECRET as string,
     pages: {
         signIn: "/",
         error: "/",
